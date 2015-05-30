@@ -1,0 +1,1671 @@
+----------------------------------------------------------------------------------------------------------------
+*****Terminal Linux*****
+----------------------------------------------------------------------------------------------------------------
+
+Criador do Shell original[sh] = Stephen Bourne
+Shell = camada que funciona como interface entre o kernel e o usuário
+Usuário/Programas<[[Shell]/Bilbiotecas]<Kernel<Hardware
+
+Tipos de Shell:
+-  c-shell
+-  t-shell
+-  k-shell
+-  bash[Bourne Again Shell](o mais robusto atualmente;presente na maioria das distrbuições)
+-  fish
+
+Prompt  : [usuário]@[hostname]:[diretorio-atual][tipo-usuario]  - Ex.:augusto@lacbra850lnx007:~#
+Camando : [comando] -[opções] [argumentos] [enter]
+(opções extendidas não podem ser combinadas com as simples{ls -lall[false]/ls -l --all[true]})
+
+#   = usuário comum
+$   = super-usuário
+
+~   = diterório home do usuário
+;   = concatena um comando com outro;executa comandos simultaneamente
+\   = indica que o que o suceder deve ser interpretado da forma que  como é, não processado pelo shell
+
+-O bash escreve em um arquivo chamado .bash_history[fica no /home], onde fica o histórico de comandos setados no terminal
+
+sudo    = super-user faca(dá permissoes de root)
+su      = inicia uma sessao com o usario root
+visudo  = edita o arquivo sudoers
+gksudo  = sudo em modo grafico
+gksu    = gksudo
+
+chroot  = O comando chroot do sistema operacional Unix é uma operação que muda o diretório root do processo corrente
+	  e de seus processos filhos. Um programa que é re-rooted para um outro diretório não pode acessar arquivos
+	  fora daquele diretório, e o diretório é chamado de "prisão chroot"
+sudoers = modulo de política sudoers que determina privilegios sudo de um usuario
+
+---------------------
+Atalhos no bash
+---------------------
+!!       = executa o ultimo comando executado pelo bash
+!n       = executa o comando da linha n do hisórico do bash
+!?t      = executa o comando mais recente que contém o texto t
+!t       = executa o comando mais recente que inicia o texto t
+^l       = limpa a tela
+^c       = aborta a tarefa em execução
+^d       = encerra a sessão do usuário atual do shell[bash]
+^shift+c = copia o texto do terminal
+^shift+v = cola o conteúdo da área de transferência no terminal
+^rtxt    = procura o texto txt no ultimo comando para o primeiro
+alt m <  = vai para o inicio do historico[/home/.bash_history]
+alt m >  = vai par o fim do historico[/home/.bash_history]
+
+----------------------------------------------------------------------------------------------------------------
+*****Variáveis de Ambiente*****
+----------------------------------------------------------------------------------------------------------------
+
+As variáveis de ambiente permitem mudar o shell de várias formas para adaptá-lo às necessidades do usuário.
+
+PS1  = Prompt String 1 - guarda o conteúdo do prompt de comando
+       [\u@\h:\W\$]
+       \u = usuário 
+       \h = hostname
+       \W = diretório corrente
+
+PS2   = Prompt String 2 - guarda o conteúdo do prompt de comando extendido; quando o comando ocupa mais de uma linha
+HOME  = diretório /home de um usuário
+SHELL = contém o tipo de shel
+PATH  = lista de diretórios vasculhados quando um comando é executado
+        [/bin,/sbin,/usr/bin,/usr/sbin,...]
+
+-As variáveis de ambiente variam de acordo com o usuário que estiver logado
+
+Comandos:
+env               = mostra o conteúdo de todas as variáveis de ambiente
+unset             = remove a variavel da memória
+echo $[variavel]  = mostra o conteúdo de uma variável específica
+export [variavel] = exporta uma variável criada pelo usuário para junto das outras variáveis globais
+
+[nome-da-variavel]=[conteudo] --> Cria uma variável de ambiente;a variável criada é de escopo local, portanto só é válida no shell atual
+[nome-da-variavel]=$[nome-da-variavel] [novo-conteudo] --> Adiciona um novo coteúdo a variável especificada
+
+
+----------------------------------------------------------------------------------------------------------------
+*****Navegação entre diretórios*****
+----------------------------------------------------------------------------------------------------------------
+
+
+-------------------------------------------
+Caminho relativo e caminho absoluto
+-------------------------------------------
+Caminho absoluto: referência a um caminho/diretório desde a raiz do sistema de arquivos[deve começar pela /]
+Caminho relativo: referência a um caminho/diretório a partir do ponto de referência atual
+
+
+-------------------------------------------
+Navegando na Árvore de Diretórios
+-------------------------------------------
+.      = diretório atual
+..     = diretório pai
+-      = diretório anterior
+~      = diretório home do usuário atual
+pwd    = [present working directory] - mostra o diretório atual
+ls     = lista o conteúdo[informações] de um arquivo/diretório
+cd     = [change directory] - acessa um diretório
+
+
+ls     = lista o conteúdo[informações] de um arquivo/diretório
+ls -a  = lista arquivos acultos
+ls -l  = lista extensa do conteúdo[informações] de um arquivo/diretório]
+ls -i  = lista o inode[identificação dentro de um sistema de arquivos em particular] de um arquivo/diretório 
+ls -o  = lista extensa do conteúdo[informações] de um arquivo/diretório], sem a coluna de grupo
+ls -r  = lista o conteúdo[informações] de um arquivo/diretório], em ordem reversa
+
+mv     = move/renomeia arquivos de uma origem para um destino
+mv -i  = solicita confirmação interativamente[caso o local de destino já tenho um arquivo/diretório com o mesmo nome]
+mv -f  = força a movimentação dos arquivos suprimindo mensagens de confirmação para gravar por cima. 
+
+cp     = copia arquivos
+cp -d  = preserva os links ao copiar arquivos
+cp -i  = solicita confirmação interativamente[caso o local de destino já tenho um arquivo/diretório com o mesmo nome]
+cp -R  = copia diretórios recursivamente[copia toda sua árvore de diretórios;seus filhos]
+cp -a  = faz o mesmo que as opções "-pdR"
+cp -p  = preserva todas as informaões[data/hora, permissões]
+cp -f  = força a cópia gravando por cima do destino
+cp -v  = mostra o nome de cada arquivo copiado
+
+rm     = remove arquivos[usado também para remover diretórios(rm -rf)]
+rm -r  = remove arquivos recursivamente
+rm -f  = remove arquivos sem solicitar confirmação
+
+mkdir                     = criar um diretório
+mkdir -m                  = define direitos de acesso no modo octal[umask=0-7]
+mkdir -p [dir/subdir/...]  = cria subdiretórios recursivamente
+
+rmdir  = remove um diretório
+
+touch                           = criar um arquivo vazio e mudar data/hora de arquivos
+touch -a                        = altera e hora de acesso de um arquivo
+touch -m                        = altera e hora de modificação de um arquivo
+touch -t[YYYY/MM/DD/h/m/]       = altera e hora de para data e hora definidos
+
+
+----------------------------------------------------------------------------------------------------------------
+*****Documentação*****
+----------------------------------------------------------------------------------------------------------------
+man 1 man = exibe o manual do man
+
+howto = documentos com detalhes sobre procedimentos para completar uma tarefa(/usr/share/)
+man   = manuais tradicionais que cobrem uma variedade de assuntos
+info  = documentação fornecida pela FSF para softwares GNU
+faq   = informações em forma de perguntas e respostas sobre assuntos variados
+ldp   = projeto para fazer e distribuir documentação sobre i Linux
+Mailing list = emais onde se discute sobre determinado assunto
+
+/usr/share/doc = possui quase 2000 páginas de documentação explicando passo a apassodiversas tarefas
+
+manuais   = são divididos em sessões:
+-1: programas executáveis ou comandos do shell
+-2: chamadas do sistema(funções fornecidas pelo kernel)
+-3: chamadas de biblioteca(funções fornecidas pelas bilbiotecas)
+-4: arquivos especiais, especialmente aqueles localizados em /dev
+-5: formatos de arquivos e conveções
+-6: jogos
+-7: pacotes macro
+-8: comandos administrativos
+-9: rotinas do kernel
+
+manuais   = as sessões são divididas em partes:
+-NAME       : nome do item procurado com uma descrição curta 
+-SYNOPSIS   : descrição completa do uso e sintaxe
+-DECRIPTION : descriçaõ breve das funcionalidades
+-OPTIONS    : descrição de cada opção e argumentos possíveis
+-FILES      : uma lista de arquivos importantes relacionados ao item
+-SEE ALSO   : uma lista de itens realicionados ao procurado
+-BUGS       : descrição de possíveis problemas com o item
+-AUTHOR     : lista de pessoas responsáveis pelo item
+
+
+
+man [n] [c] = exibe o manual do comando c na sessao n
+apropos [d] = procura por programas/comandos através da descrição d
+whatis [c]  = procura pelo programa/comando c em seu manual e retorna uma breve descrição
+
+http://www.tlpd.org/  - mantém documentação do Linux Documentation Project[LDP]
+http://www.linux.org/ - página oficial do GNU Liux[documentação, livros,cursos, links para download de distros e aplicativos]
+
+Aquivos que contém informações sobre a situação especial do sistema
+-/etc/motd      : exibe mensagens para o usuário após o login
+-/etc/issue     : permite personalizar a mensagem exibida ao usuário antes login; informações sobre a distribuição
+-/etc/issue.net : permite personalizar a mensagem exibida ao usuário antes login remoto
+
+----------------------------------------------------------------------------------------------------------------
+*****Filtros de texto*****
+----------------------------------------------------------------------------------------------------------------
+
+cat         = concatena arquivos e ou conteúdo de arquivos;mostra o conteúdo de arquivos
+cut         = corta campos/colunas selecionados de cada linha de um arquivo/imprime colunas/campos delimitados um caractere
+cut -c      = corta campos/colunas selecionados levando em conta a posição de um caractere
+cut -f      = corta campos/colunas selecionados levando em conta o numero do campo/coluna
+cut -d      = corta campos/colunas selecionados levando em conta um delimitador
+expand      = troca a tabulação de um arquivo de texto
+expand -t   = troca a tabulação de um arquivo pelo numero especificado; padrão de 8 TABs
+expand -i   = troca a tabulação de um arquivo somente início das linhas
+fmt         = formata o texto com uma largura específica;padrão de 75 caracteres
+fmt -w      = formata o texto com uma largura w
+head        = mostra as 10 primeiras linhas de um arquivo
+head -c     = mostra os primeiros bytes[cada caractere vale 1byte(8bits)] de um arquivo[ou k ou m para kilobyte ou megabyte]
+head -n     = mostra as n primeiras linhas de um arquivo
+join        = uni arquivos
+join -j     = escolhe o campo n como índice dos arquivo 1 e arquivo 2
+join -j1    = escolhe o campo n como índice do arquivo 2
+join -j2    = escolhe o campo n como índice do arquivo 1 
+nl op sopt  = numera as linhas de um arquivo
+              [h-\:\:\:=head,b-\:\:=content,n-\:=footer]
+              [subopções:-A=numerar todas as linhas,-t=somenta as linhas preenchidas, -n=somente as linhas não preenchidas]
+nl -h sopt  = cabeçalho do texto; por padrão numera o cabeçalho apenas
+nl -b sopt  = corpo do texto; por padrão numera somente as linhas não vazias
+nl -n sopt  = rodapé do texto; por padrão numera somente o rodapé
+od          = visualiza o conteúdo de arquivos nos formatos hexadecimal, octal e ASCII e nome dos caracteres
+od -t       = definir um tipo de arquivo a ser consultado[a=nome do caractera,c=ASCII,o=octal,x=hexadecimal]
+paste       = concatena arquivos em colunas verticais
+paste -d    = concatena arquivos em colunas verticais, com um separador
+paste -s    = concatena todo o conteúdo de um arquivo com uma linha para cada arquivo
+pr          = formata um arquivo de texto de forma que que tenha cabeçalho[d/m/y h:m:s pg. n], margens e largura definidos
+pr -d       = especifica um espaçamento duplo
+pr -l       = define um numero de caracteres de largura; padrão 66 caracteres
+pr -o       = numero de espaços da margem a esquerda
+split       = divide um arquivo em várias partes em uma sucessão de arquivos com final aa,ab,ac,etc 
+split -n    = devide um arquivo definindo n linhas para cada um
+split -b    = devide um arquivo definindo n bytes para cada um
+tac         = mostra o conteúdo de arquivos em ordem reversa[irmão do cat]
+tail        = mostra as 10 últimas linhas de um arquivo[irmão do head]
+tail -n     = mostra as n últimas linhas de um arquivo
+tail -f     = mostra as 10 últimas linhas de um arquivo, dinâmicamente[em tempo real]
+tr          = busca uma ocorrência em um texto e troca por outra;deve ser precedido por outro comando
+tr -d       = apaga as ocorrências da variável de busca
+tr -s       = suprimir as ocorrências da variável de busca
+wc          = exibe uma contagem de bytes[-c], caracteres[-m], palavras[-w] e linhas[-l] de um arquivo
+wc -L       = conta o numero de caracteres da  maior linnha de um arquivo
+
+
+sort        = classifica[ordem alfabética] o conteúdo de um arquivo[ordena os dados de acordo com a primeira coluna]
+uniq        = escreve em stdout, eliminando linhas duplicadas adjacentes
+uniq -d     = mostras as linhas repetidas de um arquivo
+uniq -u     = mostras as linhas que não se repetem em um arquivo 
+
+-----------------------------
+Comandos de busca
+----------------------------- 
+grep                = procura por uma palavra/frase dentro de um arquivo/diretório
+grep -n             = procura por uma palavra/frase dentro de um arquivo/diretório, e motra o nº de sua linha
+locate [pes]        = busca os diretórios que contém o [pesq] - sua busca é baseada na base updatedb
+updatedb            = atualiza a base de diretórios usada pelo comando locate
+find [dir] [pesq]   = faz uma busca de [pesq] dentro do [dir] especificado
+
+----------------------------------------------------------------------------------------------------------------
+*****Redirecionamento e Pipes*****
+----------------------------------------------------------------------------------------------------------------
+
+-----------------------
+Arquivos de Dispositivos
+-----------------------
+-Todo são arquivos no mundo Unix/like-Unix
+-Tudo pode ser mapeado para o sistema de arquivos = os programas podem interagir com os dispositivos, já que os dispositivos podem ser
+acessados como se fossem arquivos, ao passo que são denominados como arquivos de dispositivo.
+-Um arquivo de dispositivo é um objeto que oference um interface para o dispositio em si.
+-O Kernel do Linux associa os driv ers dos de dispositivos aos arquivos de dispositivos
+
+-----------------------
+Descritores de Arquidos
+-----------------------
+-Abstração de uma identificação para acessar um arquivo
+
+Existem 3 descritores de arquivos:
+-entrada padrão(stdin) = stream(fluxo) para entrada de texto, vinculada ao teclado - Descritor de arquivos 0
+-saída padrão(stdout)  = " para saída normal dos programas, vinculada ao Terminal/janela de terminal - Descritor de arquivos 1
+-erro padrão(stderr)   = " de saída de texto, usado para exibir mensagens de erro, vinculado ao Terminal - Descritor de arquivos 2
+
+-----------------------
+Redirecionamento
+-----------------------
+|  - redireciona a saída de um comando para a entrada de outro, resultando em um pipeline
+     pipeline = resultado da união de mais de dois comandos
+>  - operador de redirecionamento de saída, ou ele cria um arquivo ou sobreescreve o conteúdo do mesmo
+>> - operador de redirecionamento de saída que permite concatear um conteúdo novo ao já existente
+<  - operador de redirecionamento de entrada, ou ele cria um arquivo ou sobreescreve o conteúdo do mesmo
+<< - operador de redirecionamento de entrada que permite concatear um conteúdo novo ao já existente
+2> - redireciona o erro padrão
+
+xargs       = executa um comando e passa como argumento o que foi recebido como entrada padrão
+xargs -p    = pergunta se o comando deve ser usado anteste de fazê-lo
+xargs -r    = não executa o comando quando receber linhas va*****Expressões Regulares*****
+zias
+xargs -q    = mostra o comando na tela antes de executá-lo
+
+tee    = comando utilizado para receber uma entrada padrão e redirecionar a saída
+tee -a = anexa o conteúdo recebido nos arquivos, ao invés de sobreescrevê-los
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+
+*  = "vale qualquer coisa", pode substiuir um ou mais caracteres de um nome
+?  = substitui um, somente UM caractere de um nome
+{} = Lista de Substituição; lista os elementos que serão afetados
+[] =
+
+
+----------------------------------------------------------------------------------------------------------------
+*****Arquitetura de Hardware*****
+----------------------------------------------------------------------------------------------------------------
+
+BIOS =  Basic Input/Output System, é um software especial gravado em memório flash situada na placa-mãe.
+        Responsável por realizar todos os testes de hardware e reconhecer dispositivos ligados à placa-mãe
+        e manter o registro de data/hora.
+EFI  =  Extensible Firmaware Interface, muito parecido com a BIOS; vem em novas placa-mãe fabricadas
+
+Porta de E/S = São endereços de memória reservados no processador para os dispositivos realizarem e/s de informações.
+               Os disposivitos podem usar mais de uma porta de e/s ou uma faixa de endereços
+               /proc/ioports:  endereços de e/s em uso no sistema
+
+DMA          = Direct Memory Access, permite transferência de dados entre dispositivos e a memória
+               sem intervenção do processador.A maioria dos computadores tem 2 controladores de DMA.
+               O primeiro controla os canais 0,1,2,3 e o segundo 4,5,6 e 7
+               /proc/dma: canais de DMA em uso no sistema
+
+IRQ          = Requisição de Interrupção, são chamadas que os dispositivos podem fazer para requerer atenção
+               especial do processador.A maioria dos computadores fornecem 16 interrupções.
+               /proc/interrupts: interrupções do sistema 
+
+SCSI         = Small Computer System Interface, são interfaces para conexão de dispositivos de armazenamento
+               de dados como discos HDs, fitas DAT, CD, etc.Possibilita transferência de dados de alta
+               performace com até 16 dispositivos por barramento.
+               1-Utiliza um cabo Centronics de 50 conectores para conexão dos dispositivos e a transferência
+                 de dados é 50MBps a 8-bits.A taxa de transferência não é muito alta.
+               2-Utiliza um cabo Micro-D de 50 pinos para a ligação de periféricos.Permite que sejam ligados
+                 até 7 periféricos em uma mesma controladora.Transferência de dados continua sendo 50MBps a 8-bits/.
+               3-Wide SCSI, utiliza um cabo Micro-D de 68 pinos para suportar transferência de 16-bits,
+                 dobrando a taxa para 10MBps.
+               4-Fast SCSI, utiliza um cabo de 50 pinos com transferência de 10MBps a 8-bits.Este padrão consegue,
+                 uma performace melhor aumentando o clock de trabalho.
+               5-Fast Wide SCSI, utiliza cabo Micro-D de 68 pinos para transferência de 20MBps a 16-bits.
+                 Esta tecnologia combina um barramento e um clock maior.
+               6-Ultra SCSI, utiliza um cabo Micro-D de 50 pinos com transferência de 20MBps a 8-bits
+               7-Ultra Wide SCSI, também chamada de SCSI 3, utiliza um cabo de 68 pinos que pode atingir até 5
+                 metros de extensão.Permite que sejam ligados até 16 periféricos em uma mesma controladora.
+                 Pode atingir até 40MBps a 16-bits de transferência.
+               8-Ultra SCSI 320, nova tecnologia SCSI que permite até 320MBps de transferência a 2x32-bits.
+                 Utiliza um cabo de 68 pinos.
+
+-Cada dispositivo SCSI recebe um SCSI-ID[0-7/8-bits,0-15/16-bits].As próprias placas são endereçadas e normalmente
+ utilizam o SCSI-ID 7.
+-Nos discos SCSI é comum que o endereçamenti SCSI-ID seja definido através de jumpers no disco.
+-A marioria das controladoras SCSI possui sua própria BIOS que pode ser configurada no boot do computador.
+ A BIOS destra placas pode permitir dentro outras coisas a configuração do SCSI-ID da controladora,
+ efetuar formatação física dos discos, verificar os dispositivos conectados e seus respectivos SCSI-IDs
+ e até configurar a velocidade de transmissão de dados para acomodar discos e fitas antigas.
+-Algumas placas ainda permitem que você configure o SCSI ID do dispositivo responsável pela carga do
+ sistema operacional.O padrão é que o disco conectado ao SDSI-ID 0 contenha o setor de boot.
+-Alguns dispositivos SCSI como as controladoras RAID(Redundat Array of Inexpresive Disks) utilizam um
+ recurso chamado de Número de Unidade Lógica(LUN).Este recurso é utilizado pelas controladoras
+ para enxergarem os múltiplos dispositivos lógicos com apenas um endereço.
+-Os dispositivos SCSI são conectados ao longo de um cabo que dispõe de diversas entradas.NO final do cabo
+  é necessário conectar um componenente elétrico chamado terminador.A função deste componente é
+  condicionar o sinal enviado pelo cabo, diminuir ruídos e ecos no barramento.
+-Alguns dispositicos SCSI podem funcionar sem o terminador, mas não de forma elegante.
+-Alguns fabricantes o incluem no próprio cabo.Outros fabricantes incluem no próprio disco que será
+ conectado ao cabo.É importante que você saiba que os dispositivos SCSI necessitam
+ de um terminador em cada ponta do cabo para que funcionem de maneira apropriada
+-O comando lsscsi fornece uma lista dos dispositivos SCSI conectados ao sistema.
+
+---------------------------------
+Dispositivos de Rede
+---------------------------------
+-É difícil conceber a ideia de um PC que não esteja conectado a uma rede ou à Internet.
+-Desta maneira, configurar corretamente uma placa de rede no Linux se tornou indisponsável.
+-O primeiro passo para configurarmos um dispositivo de rede é identificar o tipo de barramente que ele utiliza.
+ Se o barramento for ISA pode ser preciso alterar a confuguração de jumpers retirando ou colocando pequenos
+ terminais na placa para adequar o endereçamento de E/S e IRQs.Algumas dispensam o acesso físico à placa,
+ pois são reconhecidas pela BIOS que fornecerá a configuração dos recursos.
+-Caso sua sua placa seja PCI ou CNR, o comando lspci poderá ser útil para identificar o fabricante e o modelo
+dos dispositivos PCI.
+
+/proc/interrupts = interrupções do sistema
+/proc/ioports    = dispositivos de e/s
+
+------------------------------------
+Carregando Módulos
+------------------------------------
+-Depois de identificarmos a placa, o endereçamento de e/s e o IRQ, será preciso carregar o módulo do Kernel
+ correspondente ao compilar o suporte ao dispositivo.
+-Para carregar o suporte ao dispositivo através de um módulo do Kernel, devemos utilizar o comando modprobe.
+-Algumas placas ISA necessitam que o endereçamento de e/s sejam passados como argumentos
+ para o comando modprob alocar os recursos correntes.
+
+
+
+      
+
+
+
+----------------------------
+Configuração de RAID
+----------------------------- 
+ 
+RAID = Redundant Array of Inexpensive Disks(Conjunto Redundante de Discos Independentes)
+-É um dispositivo virtual, criado a partir de 2 ou mais dispositivos de blocos reais(ex.:HD)
+
+raid 0    = striping - o arquivo é dividido em pedaços, sendo cada um sem comportado em discos separados
+raid 1    = mirroring - espelhamento; o mesmo conteúdo em ambos os discos
+
+mdadm [modo] [nome-array] [opções] [componentes_array]  = comando utilizado para administrar conjuntos de multi-dispositivos
+
+https://www.youtube.com/watch?v=2xNMhXc4TAw&amp;list=PLucm8g_ezqNp92MmkF9p_cj4yhT-fCTl7&amp;index=26  - configuração de RAID
+https://www.youtube.com/watch?v=p1gbsZkKRNo&amp;list=PLucm8g_ezqNp92MmkF9p_cj4yhT-fCTl7&amp;index=27  - configuração de RAID
+https://www.youtube.com/watch?v=sLrPWxff3QM&amp;list=PLucm8g_ezqNp92MmkF9p_cj4yhT-fCTl7&amp;index=28  - configuração de RAID
+https://www.youtube.com/watch?v=tg8RpKh8EiI&amp;list=PLucm8g_ezqNrA8bbPdbsfgms_STyJgpX_&amp;index=8   - o que é RAID
+
+
+
+----------------------------------------------------------------------------------------------------------------
+*****Instalação do Linux*****
+----------------------------------------------------------------------------------------------------------------
+-O primeiro ponto que precisa ser abordade é a localização do Gerenciador de Boot no disco.
+ A maioria das BIOS tem limitação de não conseguir ler setores do disco depois do cilindro 1024,
+ desta forma o Gerenciador de Boot GRUB precisa estar alocado nos primeiros 1025 cilindros para
+ que seja capaz de carregar o Kernel corretamente.
+-Na maioria dos casos, é recomentado que o gerenciador de boot esteja separado do sistema de
+ arquivos principal e montado como /boot.
+-O linux permite que um partição especial chamada Swap atue como uma memória virtual em disco
+ permitindo que os programas e dados sejam amazenados temporariamente possibilitando que o
+ sistema execute mais programas concorrentemente.
+-O espaço destinado a esta partição depende das aplicações que serão executadas nos sitema e o
+ volume de dados que estas aplicações irão lidar.Por via de regra, é recomendado que o swap seja,
+ pelo menos o mesmo tamanho que a memória RAM e, em sistemas com pouca memória, três vezes o seu tamanho.
+
+ ex: Um sistema com 1GB de HD:
+     -50MB para /boot
+     -100MB para swap
+     -850MB para o sistema raiz /
+
+------------------------------------
+Para grandes sistemas
+------------------------------------
+-Mantenha o sistema raiz / pequeno.A chance de o sistema sofrer algum dano e
+ inconsistência de dados é menor.
+-Separe o dire´tório /var em uma partição grande o suficiente para acomodar os arquivos de LOG.
+ A vantegem é que, se esta partição ficar cheia ela não irá afetar a estabilidade do sistema.
+-Separe a partição /tmp em uma partição que acomode todos os arquivos temporários
+ gerados pelas aplicações e usuários
+-Separe a partição /home oferecendo aos usuários uma partição grande o suficiente para seus arquivos.
+-Separe a partição de swap entre os discos se houver mais de um.
+Isso pode aumentar a performace da memória virtual.
+
+------------------------------------
+Para Sistemas maiores ainda
+------------------------------------
+-Em redes que tenham diversas máquinas com a mesma versão de Linux, a pasta /usr pode ser instalada
+ em somente um computador e compartilhada entre diversas máquinas de uma rede "somente leitura" via NFS.
+
+
+ -O esquema utilizado no particionamento dos discos de um sistema vai depender muito das aplicações utilizadas,
+ tamanho dos discos e outros fatores já mencionados.Mas
+ é importante que você se lembre da necessidade de o
+ Kernel e o gerenciador de boot estarem dentro dos primeiros 1024 cilindros e alocar para a partição
+ swap pelo menos o mesmo tamnha da memória RAM.
+
+----------------------------------------------------------------------------------------------------------------
+*****Gerenciamento de Boot*****
+----------------------------------------------------------------------------------------------------------------
+
+Gerenciadores de Boot:
+-São programas que carregam o kernel do linux e até permitem a escolha de um outro sistema opercional.
+ O Linux possui dois gerenciadores de boot: o GRB e o GRUB2.
+-Logo após os testes de hardware realizados pela BIORS, o computador procura no setor de boot da partição ativa,
+ ou no Master Boot Recorder(MBR), um pequeno software
+ para iniciar a carga do sistema operacional.
+
+ Grand Unified Boot Loader(GRUB)
+-O grub é uma alternatica como gerenciador de boot e apresenta alguns recursos extras em relação ao LILO.
+ As distribuições estão adotando o grub como gerenciador padrão.
+-Ele é flexível, funcional e poderoso, podendo carregar sistemas operacionais
+ como o Windows(9x, ME,NT,2000 e XP), DOS, GNU Hurd, *BSD, OS/2 e outros.
+-O grub também permite buscar imagens do kernel pela rede, por cabos seriais, suporta discos rígidos IDE e
+ SCSI, e tem interface voltada para a linha de comandos ou menus.
+-Suporta sistemas sem discos e terminais remotos.
+
+Notação no Linux   |  Notação no GRUB
+/dev/hda                 (hd0)
+/dev/hda1                (hd0,0)
+/dev/hda2                (hd0,1)
+/dev/hdb                 (hd1)
+/dev/hdb1                (hd1,0)
+/dev/hdb2                (hd1,1)
+/dev/sda                 (hd0)
+/dev/sda1                (hd0,0)
+/dev/sda2                (hd0,1)
+/dev/sdb                 (hd1)
+/dev/sdb1                (hd1,0)
+/dev/sdb2                (hd1,1)
+/dev/fd0                 (fd0)
+
+-Não existe distinção entre os discos IDE e SCSI.Ambos são refenciados como (hd?) pelo GRUB.
+-O grub possui um arquivo de configuração chamado /boot/grub/menu.lst.
+ Este arquivo é dividido em parâmetros Globais, que afeta o GRUB e parâmetros que só têm efeito
+ para as imagens do sistema que será carregado.
+
+---------------------------
+Parâmetros Globais
+---------------------------
+-timeout: Define um tempo(em segundos) de espera para o prompt ou menu.
+-default: Define qual será a imagem padrão que será carregada se nenhuma outra for selecionada,
+-fallback: Caso ocorra algum erro inesperado, e a opção padrão não possa ser carregada, este parâmetro define
+ qual outra imagem deve ser utilizada.
+-color: Permite que você escolha as cores usadas no menu de boot.
+-password: Permite que você especifique uma senha para qualquer ação que não seja carregar as imagens disponíveis.
+-hiddenmenu: Esta opção faz com que o menu de opções não seja mostrado e que a carga da imagem especificada pela
+ linha "default" seja carregada.O usuário pode requisitar o menu com o <ESC>.
+ -title: Define um texto que será apresentado no menu de boot para identificar o sistema.
+ -root: Determinar qual é a partição raiz de uma determinada imagem.
+ -rootnoverify: Identifica à opção root, mas não tenta montar a partição raiz.Utilizada para alguns sistemas
+  como o Microsoft DOS e Windows.
+-kernel: Esta opção informa qual imagem de kernle vai ser carregada.Alguns parâmetros do Kernel podem ser passados.
+-module: Faz com que algum módulo necessário para o boot seja carregado.Lembre-se que estes não são módulos do
+ kernel (módulos de som, rede, etc) e sim módulos necessários ao boot de alguns sistemas, como o GNU Hurd.
+-lock: Bloqueia a carga da imagem do kernle por senha.A senha precisa se especificado com a opção password.
+-makeactive: Torna a partição ativa para o boot.este comando está limitado a partições primárias dos discos.
+-chainloader: Especifica a localização do gerenciador de boot de outros sistemas operacionais.
+-Alguns sistemas, como o Microsoft Windows, armazenam seu próprio gerenciador de boot no início da partição onde
+ estão instalados.
+
+------------------------------
+Utilitário grub-install
+------------------------------
+/sbin/grub-install[opções] partição
+-Este comando isntala o grub como gerenciador de boot no MBR do primeiro disco e cria o diretório /boot/grub.Este
+ diretório contém os arquivos necessários para o seu funcionamento.
+
+As opções frequentes são:
+-root-directory=diretório Esta opção instalao GRUB em  diretório que não esja o raiz.
+ É útil para instalá-lo em outras partições.
+-recheck Esta opção checa novamente o mapa de dispositivo em /boot/grub/device.map.
+ É útil quando um novo disco for acrescentado ou retirado do sistema.
+
+
+
+
+
+
+---------------------------
+Inicialização do Sistema
+---------------------------
+-Varia entre distribuições
+
+**O Processo Init**
+-Init é o primeiro processo que roda no sistema(pai de todos os processos), 
+ ele é o responsável pelo controle de inicialização de processos.
+O init é executado através do script /etc/inittab.
+-PID = 0
+-tam processo é responsável por levar o sistema ao nível de execução padrão
+
+**Runlevels - Níveis de Execução**
+-Especifica as diferentes formas que o sistema pode ser utilizado e o controle sobre os quais seerviços rodarão.
+-Os runlevels são especificados através pelos números inteiros de 0 a 6
+
+0      -Sistema desligado
+1,S,s  -Modo Monousuário 
+2      -Multiusuário;Padrão no Debian
+3      -Multiusuário;Padrão non Red Hat, sem GUI
+4      -Não usado
+5      -Multiusuário completo com login gráfico(Red Hat)
+6      -Reinicialização do sistema
+
+/etc/init.d = diretório que contém scripts de inicialização/encerramento para cada serviço do sistema.]
+Tais scripts aceitam argumentos start, stop, restart, status e reload.Esses scripts não são executados
+pelo processo init.Em vez disso, os diretórios /etc/rc0.d[carrega os scripts[links para o /etc/init.d]
+do runlevel0] a /etc/rc6.d possue links simbólicos para esses scripts.
+
+-Os níveis de execução padrão vão de 2 a 5, pois se forem setados 0 ou 6 o sistema fica em looping,
+ao passo que iria ficar iniciando e parando.
+
+-Para validar o nível padão de inicialização do sistema basta executar o comando:"head /etc/inittab";
+-Na 5ª linha tem o ID, sendo ele que especifica o runlevel initdefault
+
+telinit [num_runlevel]  = altera o runlevel setado como initdefault em tempo de execução.
+telinit 0               = desliga o sistema
+telinit q               = aplica as mudanças realizadas em /etc/inittab
+init [num_runlevel]     = muda runlevel para [num]
+runlevel                = mostra o runlevel prévio e o atual
+ 
+--------------------------------------------
+formato dos links simbólicos para os scripts
+  dos diretórios /etc/rc0.d a /etc/rc6.d
+--------------------------------------------
+formato: KNNnome e/ou SNNome
+
+K    = kill(finaliza) Serviços que não deverão rodar no runlevel;executados primeiro
+S    = start(iniciar) Serviços que deverão rodar no runlevel
+Nome = Identificação dos scripts
+
+--------------------------------------------
+Processos Sinais e Comando Kill
+--------------------------------------------
+Processos monitoram sinais enviados pelo kernel ou pelos usuários.
+-Processo = programa em execução
+
+Sinais comuns:
+-HUP    = nº 1  - Desconectar;força um processo/deamon reler arquivos de configuração sem interrompê-los
+-INT    = nº 2  - Interromper, equivalente a ^C[CTRL+C]
+-TERM   = nº 15 - Terminar; termina de forma "elegante"
+-KILL   = nº 9  - Mata um processo
+-TSTP   = nº 20 - Parar/pausar a execução de um processo, equivalente ao ^Z[CTRL+Z]
+-CONT   = nº 18 - Continuar a execução  
+
+Para enviar sinais a um processo:
+kill -[sinal] [PID]            = envia o [sinal{numero/nome}] para o processo de acordo com um [PID] - ex.:kill -15 2000
+killall [opção] [n-program]    = termina processo associados comm programas cujos nomes são fornecidos
+killall -i                     = terminal um processo no modo interativo
+
+
+--------------------------------------------
+Controle de tarefas no Shell
+--------------------------------------------
+bg          = coloca um processo/programa em background[segundo plano]
+fg          = coloca um processo/programa em background[segundo plano]
+comando &amp;   = executa o comando em bg; n(n-processo) [PID]
+^Z[CTRL+Z]  = para o processo;n(n- processo)+ Parado [nome-processo]
+
+----------------------------------------------------------------------------------------------------------------
+*****Estrutura de Diretórios*****
+----------------------------------------------------------------------------------------------------------------
+
+-A identificação dos objetos de um sistema de arquivo no Linux é conhecido como inode.
+-O inode carrega as informações de onde o objeto está localizado no disco, informações
+ de segurança, data e hora de criação e última modificação dentre outros.
+-O sistema de arquivos do Linux é definido por um padrão chamado
+ de Filesystem Hierarchy Standad ou FHS, criado em 1994
+
+
+
+/          = primeira hierarquia do sistema; o diretório raiz do sistema
+/bin/      = binários principais dos usuários
+/boot/     = aquivos do sistema de boot
+/dev/      = arquivos de dispositivos
+/etc/      = arquivos de configuração do sistema
+/home/     = diretório dos usuários comuns do sistema
+/lib/      = bibliotecas essenciais do sistema e os módulos do kernel
+/media/    = diretório de montagem de dispositivos
+/mnt/      = diretório de montagem de dispositivos[o mesmo que /media/]
+/opt/      = instalação de programas não oficiais da distribuição ou por conta do usuário
+/sbin/     = armazena arquivos executáveis que representam comandos adminstrativos[ex.: shutdown]
+/srv/      = diretórios para dados de serviços fornecidos pelo sistema
+/tmp/      = diretório para arquivos temporários
+/usr/      = segunda hierarquia do sistema, onde ficam os usuários comuns do sistema e programas
+/var/      = diretório com arquivos variáveis gerados pelos programas do sistema[ex.:logs,spool,e-mail e cache]
+/root/     = diretório do usuário root 
+/proc/     = diretório que comporta as informações dos processos do kernel
+
+
+----------------------------------------------------------------------------------------------------------------
+*****Gerenciamento de Partições e unidades de rede*****
+----------------------------------------------------------------------------------------------------------------
+
+-EXT2: (second extended filesystem)É um sistema de arquivos para dispositivos em bloco em substituição ao sistema de arquivos EXT.
+       Ainda é muito utilizado na formatação de mídias SD(cartões de memório, HDs sólidos, pendrives, etc),
+       ao passo que ele minimiza o número de gravações, lembrando que tais dispositivos têm limitação no múmero 
+       de ciclos de gravação que suportam.
+
+-Journaling File System: mantém o registro detalhado das alterações dos dados que serão feitas nos arquivos antes de efetivá-las;
+            área dedicada no sistema de arquivos com um LOG circular.
+            Se houver uma queda de energia, por exemplo, os sistemas de arquivos baseados em journaling, são capazes de se recuperar
+            de forma mais rápida e com possíveis menos danos aos dados.
+
+-ReiserFS: foi o primeiro sistema de arquivos baseado em Journaling incluido no Kernel padrão do Linux.
+           Permite manter o Journaling de metadados ou de blocos de dados, e aumentar/diminuir a partição sem perda de dados.
+           Se comparado o EXT2 e EXT4, apresenta-se significativamente mais rápido, ideal para HTTP Caches, sistemas de email
+           onde a performance com arquivos pequenos é crucial, isso rodando em kernel da familia 2.4 com arquivos menores que 4k.
+           Já no Kernel 2.6 o reiserfs cede lugar para o EXT4.
+
+-EXT3: (third extended filesystem)Veio para substituir o ext2, sua maior vantegem em relação ao ext2 é a recuperação de falhas em
+       caso erros e queda de energia.Sua performance é pior que o ext4, reiserfs e xfs.
+       Permite conversão de sistemas de arquivos ext2 em ext3 sem a necessidade de backup e restore de dados.
+       Como desvantagem, o ext3 não pode ser verificado pelo fsck enquando estiver montado como gravação.
+       Não permite desfragmentação online dos arquivos.
+       Não permite recuperar arquivos apagados.
+
+-EXT4: (four extended filesystem)É um sistema de arquivos também de journaling que a parti do kernel 2.6.28 ficou disponível
+        de forma estável no sistema.
+        -Trabalha com volumes de até 1 exbitbyte
+        -Totalmente compatível com ext2 e ext3
+        -Performance melhor
+        -Menor fragmentação de arquivos
+        -Checksum do Journaling(mais confiável)
+        -Checagem de disco mais rápida com o e2fsck
+        -Compatibilidade fraca com outros sistemas não linux
+
+XFS: É um sistema de arquivos desenvolvido pela Silicon Graphics para o sistema operacional IRIX.Posteriormente seu código foi
+     adaptado para o Linux.
+     É um sistema de alta performance de Journaling
+     É um sistema de arquivos desenvolvido em 64bits, compatível com sistema de 32 bits.
+     Foi especialmente desenhado para eficiência em operações de IO paralelas, com múltiplos dispositivos de storage.
+     É geralmente utilizado em ambientes com vários discos em dispositivos de Storage dedicados.
+     Possui capacidade de desfragmentaçãode arquivos online através de ferramenta xfs_fsr.
+     Possui a capacidade de alterar o tamano do volume de forma online(aumentar).
+     Possui backup e restore nativos através do xfsdump e xfsretore.O backup pode ser feito com o sistema online.
+
+VFAT: Existem diversas implementações em Linux para acesar o sistema de arquivos File Allocation Table(FAT).
+      Usualmente o mount é utilizado para invocar os drivers do kernel(msdos,vfat,umsdos).
+      O Linux possui suporte para os tres tipos de FAT: fat12,fat16 e fat32.
+      Não suporta qualquer tipo de permissão em arquivos ou diretórios.
+      O driver VFAR suporta nomes de arquivos longos.
+      Permite que um usuário ou grupo possa acessar todo o volume VFAT através do comando:
+      mount -t vfat -o uid=745,gid=15 /dev/hda3
+
+
+
+----------------------------------------------------------------------------------------------------------------
+*****Sistemas de Arquivos e Dispositivos*****
+----------------------------------------------------------------------------------------------------------------
+
+-O sistema de arquivos do linux é tão robusto e flexívl que possibilita ao usuário criar e manter arquivos em diferentes
+ participações, diferentes discos, diferentes dispositivos e até em computadores remotos.
+
+-Padrão IDE: (Integrated device Eletronics)As placas mãe comuns possuem duas interfaces IDE chamadas de primária e secundária.
+       E cada interface possibilita a conexão com dois discos.Dependendo de qual interface o disco está conectado, ele
+       vai ser configurado como mestre primároi, escravo primário, metre secundário e escravo secundário.
+
+-Padrão SCSI: (Small Computer System Interface) oferecem um performance melhor que os discos IDE.Geralmente são mais caros e utilizados
+               em servidores.Para utilizar um disco SCSI é necessária uma placa SCSI que ofereça suporte à pelo menos 15 discos.
+
+/dev/hda - Disco IDE conectado na interface primária mestre
+/dev/hdb - Disco IDE conectado na interface primária escravo
+/dev/hdc - Disco IDE conectado na interface secundária mestre
+/dev/hdd - Disco IDE conectado na interface secundária escravo
+/dev/sda - Disco SCSI conectado no primeiro canal
+/dev/sdb - Disco SCSI conectado no segundo canal
+/dev/sdc - Disco SCSI conectado no terceiro canal
+/dev/fd  - Drive de Disquete
+
+
+-O padrão SCSI não tem a limitação de quatro discos como o IDE, podendo chegar até pelo menos 15 discos.
+-Todos os dispositivos no Linux ficam em um diretório especial "/dev".
+-Cada disco pod ter de uma a dezessis partições como um contêinr para os sistemas de arquivos.
+-No Linux cada partição é representada por um númro inteiro.
+
+---------------------
+Tipos de Partições
+---------------------
+Partições Primárias:
+-Cadas disco pode conter no máximo quatro partições primárias.
+-Estas partições contêm necessariamente um sistema de arquivos e pelo menos uma, deve ser criada.
+-Uma das partições primárias deve ser marcada como ativa, para que a carga dos sistema operaciona(boot) sja possível.
+
+Partições Estendidas:
+-São uma variação das partições primárias, mas não podem conter um sistema de arquivos.
+-Funcionam como contêiner para as partições lógicas.
+-Em um disco somente podemos ter uma partição estendida e lea toma ligar de uma partição primária.
+
+Partições Lógicas:
+-As partições lógicas existem em conjunto com uma partição estendida  podemos ter de uma a doze partiçõs deste tipo.
+-Elas são someadas à partir do número 5 até 16.
+-Desta forma podemos ter até 15 partições com sistema de arquivos, em um único disco, sndo 3 primárias, 1 estendida para conter 13 partições lógicas.
+
+Partições de Swap(arquivo de troca):
+-Esta possibilita que o Linux tenha uma memória virtual em disco.
+ Este tipo de memória é usado como arquivo de troca de dados, entre a memória física e o disco.
+-Seu objetivo é aumentar a performance do sistema.Esta partição precisa de uma designação especial e uma formatação especial também.
+-Uma vez definidos os tamanhos das partições é difícil aumentar ou diminuir sem a perda dos dados.
+
+------------------------------------------------
+Criando partições e Sistemas de Arquivos
+------------------------------------------------
+-fdisk e cfdisk = respo'nsáveis por criar as partições de disco
+
+
+Comando fdisk:
+-fdisk [dispositivo]
+-É um utilitário para criar, listar, alterar e apagar partições de disco.
+-Não se coloca a numeração da partição do dispositivo.
+
+fdisk [opções] [dispositivo]
+-a:  marca ou desmarca a partição como ativa para o boot do sistema.
+-d:  apaga uma partição.Tem-se que selecionar o número da partição a ser apagada.
+-l:  lista os tiopos de partições possíveis
+-m:  mostra uma pequena ajuda
+-n:  adiciona uma nova partição
+-p:  mostra a tabela de partições que existe na memória.Enquando as alterações não forem gravadas no disco, nenhuma alteração é feita.
+-q:  sai do fdisk sem salvas as alterações
+-r:  muda o tipo de partição indicando qual o sistema de arquivos que ele vai suportar.
+     O sistema ext2 é representado por 83 e a partição swap por 82.
+-w:  grava as alterações efetuadas em disco.
+
+Comando mkfs:
+-Formata a partição criada pelo fdisk com o sistema de arquivos.
+-O tipo do sistema de arquivos é definido pela opção -t e são o formato nativo ext2, ext3 ou msdos.
+-Os comandos mke2fs e mkdosfs são variações do mkfs.
+
+mkfs [-t tipo] [opções] [dispositivo]
+-c:       verifica a existência de bad blocks(setores defeitos) no dispositivo.
+-L: nome  configura o nome do dispositivo.   
+-n: nome  configura o nome do dispositivo para o formato msdos.
+-q:       faz com que o mkfs trabalhe como o mínimo de saído no vídeo possível.
+-v:       faz com que o mkfs trabalhe como o máximo de saído no vídeo possível.
+
+Exemplo:  mkfs -t ext2 -L discoprincipal /dev/hda4
+
+Para checar as partições existentes: 
+-cat /proc/partitions
+-mount | grep dispositivo
+
+ comando mkswap:
+ -Prepara o dispositivo para ser usado como área de memória virtual(swap).
+ -Ante de formatar uma partição swap, é neceário que ela eja do tipo 82(Linux Swap).
+ -Depois de formatar a partição de swap é necessário ativá-la com o comando: swapon.
+
+
+-------------------------------------
+MBR - Master Boor Record
+-------------------------------------
+O MBR é um setor no HD, os 512 bytes, 466 bytes são reservaods para o setor de boot, 
+enquanto os outros 66 bytes guardam a tabela de partição.
+Quando trocamos de SO, geralmente sobreescrevemos a MBR com um novo gerenciador de boor, mas a tabela
+de particionamento só é modificada ao criar um deletar participações.Se, por algum motivo, os 66 bytes
+da tabela de particionamento for danificado, você perderá o acesso a todas as participações e o HD fica
+parecendo vazio, como se tivesse sido completamente apagado, porém é possível recuperar as partições,
+e seus dados, usando programas de recuperação.
+Para fazer um dual-boot é necessário um Boot Manager, que ficará residente na trilha MBR e é carregado cada vez que o micro é ligado.
+
+
+
+-------------------------------------
+Trabalhando com Sistema de Arquivos
+-------------------------------------
+Comando df:
+-Mostra a capacidade utilizada de um sistema de arquivos em termo de espaço e inodes.
+-Como o número de inodes está diretamente ligado ao número de arquivos que um dispositivo pode armazenar,
+ é possível que ele acabe e ainda tenhamos espaço diponível em disco.
+-Isso é raro, mas pode acontecer quando temos um número enorme de pequenos arquivos.
+ O número de inodes é definido na formatação do disco.
+
+df [opções] [diretórios]
+-h:  mostra as informaçõe de forma mais simples.Simplifica as representações em M(megabytes)  e G(gigabytes).
+-i:  mostra o número de inode restante no disco ao invés do espaço disponível.
+
+Comando du:
+-Fornece uma lita detalhada sobre a utilização do disco em termo de diretório.
+-Se não setar um diretório como parâmetro ele usa o corrente como base de pesquisa.
+
+du [opções] [diretórios]
+-a:  mostra todos os arquivo e não somente diretórios.
+-c:  mostra um total no final da litagem.
+-h:  mostra as informaçõe de forma mais simples.Simplifica as representações em M(megabytes)  e G(gigabytes).
+-s:  mostra um sumário do diretório especificado e não o total de cada subdiretório.
+-S:  exclui os subdiretórios da contagem.
+
+
+Comando fsck:
+-Chequa e corrige a existência de erros no sistema de arquivos
+-Por padrão, o fsck assume o sistema de arquivos ext2 e após fazer uma checagem no disco, pergunta ao usuário
+se ele  deseja fazer as correções necessárias.
+
+fsck [opções] [-t tipo ] [opções do tipo] [dispositivo]
+-A 			   :  Faz a checagem de todos os discos especificados no arquivo /etc/fstab.
+-t 			   :  Especifica o tipo de sistema de arquivos que deverá ter algumas opções para o sistema de arquivos ext2.
+-b superbloco  :  Especifica qual superbloco o fsck irá trabalhar.
+-c 			   :  Faz checagem de setores defeituosos(bad blocks).
+-f   		   :  Força a checagem do sistema de arquivos mesmo que este pareça íntegro.
+-p    		   :  Repara automaticamente o sistema de arquivos.
+-y 			   :  Executa o fsck de modo não interativo, não fazendo nenhuma pergunta ao usuário.
+
+*Tal comando só pode ser executado se as partições estiverem desmontadas(ou montado em ready-only), 
+ para que o usuário não grave, leia ou altere algum arquivo/diretório.
+superbloco = uma área especial no disco que guarda informações importantes dos parâmetros do sistema de arquivos e o seu estado atual.
+/etc/fstab = mantém informações de quais sistemas de arquivos serão montados no preocesso de carga do sistema operacional.
+
+Comando which:
+-Utilizado para visualizar a localização no disco do comando,o qual é recebido como argumento.
+
+Comando find:
+-Utilizado para achar, a partir de um caminho/diretório, recursivamente uma expressão diretamente no sistema de arquivos.
+
+find [caminho/diretório] [opções] [expressão]
+-name   :  localiza um arquivo pelo nome.
+-iname  :  localiza arquivos, desconsiderando lower/upper cases.
+-lname  :  localiza links simbólicos de um arquivos.
+-ctime n:  localiza arquivos/diretórios que foram alterados em n dias.
+-used   :  localiza arquivos/diretórios que foram acessar nos ultimos n dias.
+-size nk:  localiza arquivos/diretórios que tenha nk de tamanho.
+
+Comando locate:
+-Localiza arquivos/diretórios através do banco de dados criado pelo comando updatedb.
+-Sua busca é mais rápida que o find, desde que o DB esteja atualizado.
+
+Comando updatedb:
+-Atualiza a base de dados utilizada pelo comando locate.
+-/var/lib/slocate/slocate.db = É executado no cron(sistema de agenda de tarefas).
+
+Comando whatis:
+-Procura uma palavra na base de dados de ajuda do Linux.
+
+Comando apropos:
+-Procura no banco de dados do whatis, por parte de uma palavra.
+
+-------------------------------------------
+Montando e desmontando sistemas de arquivos
+-------------------------------------------
+
+Pontos de montagens comuns no Linux:
+-/cdrom
+-/mnt
+-/floppy
+
+-----------
+/etc/fstab:
+-----------
+Armazena as configurações dos dispositivos serem montados e qual o ponot de montagem de cada um na carga do sistema operacional.
+
+Campos:
+-Dispositivo:				especifica o dispositivo a ser montado
+-Ponto de montagem:			especifica o diretório que o dispositivo será montado
+-Tipo de Sistema de Arquivos:		especifica o tipo de sistema de arquivos a ser montado
+-Opções de Montagem: 		 	especifica as opções de montagem, dependendo do tipo de sistema de arquivos
+-Frequência de Backup:			o programa dump consulta o arquivo para saber a frequência de backup.
+					É um campo numérico, onde 1 é EXT2 e 0 para outros
+-Checagem de Disco:			determina se o dispositivo deve ou não ser chefaco no boot pelo fsck.É um campo numérico, 
+					0 é pra não ser checado,1 é para ser checado primeiro e 2 para  checar depois do sistema raiz.
+
+-----------------------------
+Tipos de Sistema de Arquivos
+-----------------------------
+ext2: 	  sistema de arquivos padrão do Linux	
+ext3 	  sistema de arquivos ext2 melhorado
+reiserfs: sistema de arquivos do tipo journaling
+msdos:	  sistema de arquivos FAT do MS DOS
+vfat:	  sistema de arquivos FAT-32 do MS Windows
+iso9660:  sistema de arquivos do CD-ROM
+nfs:	  network file system.Usado para montar dispositivos em computadores remotos
+swap:	  sistema de arquivos de troca utilizado para memória virtual
+proc:	  uma janela especial dentro do kernel do linux.Utilizada pelos usuários, programas e utilitários
+          para escrever ou ler parâmetros do kernel.Geralmento montado no diretório /proc
+
+-----------------------------
+Opções de Montagem
+-----------------------------
+auto:		habilita que o dispositivo seja montado no boot
+noauto:		desabilita que o dispositivo seja montado no boot
+ro:			monta o sistema de arquivos como somente leitura
+rw:			monta o sistema de arquivos para leitura e gravação
+exec:		habilita a execucao de arquivos binariox no sistema de arquivos especificado
+noexec:		desabilita a execucao de arquivos binariox no sistema de arquivos especificado
+user:		possibilita que qualquer usuário monte o dispositivo, mas proíbe outros usuários de desmontá-lo
+users:		possibilita que qualquer usuário monte e desmonte o dispositivo
+nouser		somente o super-user pode montar e desmontar o dispositivo
+sync:		habilita a transferência de dados síncrona no dispositivo
+async:		habilita a transferência de dados assíncrona no dispositivo
+dev:		dispositivo especial de caracteres
+suid:		habilita que os executáveis tenham bits do suid e sgid e executem como se fosse super-user
+nosuid:		desabilitaque os executáveis techam bits do suid e sgid
+defaults:	configura as opções de montagem como rw,suid,exec,auto,nouser e async
+
+-----------------------------
+Montando e desmontando
+-----------------------------
+mount [opcoes] [dispositivo] [diretorio]
+mount [opcoes] [dispositivo]
+mount [opcoes] [diretorio]
+
+-a 			monta todos os dispositivos especificados no arquivo /etc/fstab que não tem a aopção noauto selecionada
+-r 			monta o sistema de arquivos do dispositivo como somente leitura
+-w 			monta o sistema de arquivos do dispositivo para leitura e gravação
+-o 		 	especifica as opções de montagem
+-t tipo 	especifica o tipo(ext2,ext3,reiserfs,vfat,msdos,iso9660,umsdos) de sistema de arquivos do dispositivo.
+
+umount [opcoes] [dispositivo]
+umount [opcoes] [diretorio]
+
+-a 			desmonta todos os dispositivos listados no arquivos /etc/mtab, que é mantido
+		        pelo comando mount como referência de todos os dispositivos montados.
+-t -tipo 	desconta somente os dispositivos que contenham o sistema de arquivos especificado no tipo.
+
+----------------------------------------------------------------------------------------------------------------
+*****Executanto, gerenciando e eliminado processos*****
+----------------------------------------------------------------------------------------------------------------
+
+Ligar o computador com linux = boot >> bootloader[grup/lilo] >> init[carga dos scripts de boot] >> 
+				       getty[resposável pela autenticação dos usuários e iniciar o processo de shell]
+
+
+-------------------------------
+Esquema de Carga do Sistema
+-------------------------------
+init[1]
+ ^  -fork()
+ |   -init[3]-exec()
+ |     -getty-exec()
+ |       -login-exec()
+ |          -/bin/bash	
+ |				  |	
+ |				  | 					
+ -------exit()-----
+
+------------------------------
+Atributos dos processos
+------------------------------
+-process id
+-user id
+-group id
+-processo pai
+-parent id
+-variaveis de ambiente
+-diretorio de trabalho
+-temporizadores
+
+------------------------------
+Tipos de sinais(+30)
+------------------------------
+-HUP    	= nº 1  - Desconectar;força um processo/deamon reler arquivos de configuração sem interrompê-los
+-INT    	= nº 2  - Interromper, equivalente a ^C[CTRL+C]
+-KILL  		= nº 9  - Mata um processo
+-TERM   	= nº 15 - Terminar; termina de forma "elegante"
+-TSTP   	= nº 18 - Parar/pausar a execução de um processo, equivalente ao ^Z[CTRL+Z]
+
+
+**Escolonador: algoritmo que coloca em fila todos os processos em execução e durnte quanto tempo, 
+  ele é quem permite a execução de processos em concorrência
+**Lista de prioridades: ps -lax
+
+------------------------------
+Comando ps
+------------------------------
+-a:			mostra 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------
+*****Permissões de arquivos/diretórios*****
+----------------------------------------------------------------------------------------------------------------
+-u(usuário),g(grupo),outros(o),+(adiciona permissão),-(remove permissão)
+-r(leitura),w(escrita),x(execução),-(nenhuma permissão)
+-Permissão   Binário   Decimal
+   ---        000        0
+   --x        001        1
+   -w-        010        2
+   -wx        011        3
+   r--        100        4
+   r-x        101        5
+   rw-        110        6 
+   rwx        111        7
+-Permissões especiais
+SUID=faz arquivo executável rodar com as permissões de seu dono, e não com as do usuário que o executou.
+SGUID=faz arquivo rodar com as permissões do grupo do arquivo,num diretório, faz seus filhos herdarem o grupo
+STICKY=faz com que arquivo só possa ser apagado por quem o criou, ou SU.      Ex.:/tmp
+
+SUID=4
+SGUID=2
+STICKY=1
+
+chmod 4750 /sbin/shutdown
+chmod 2777 publico
+chmod 1777 corrimao
+
+# groupadd shutdown
+# gpasswd -a gabriel shutdown
+# chown root:shutdown /sbin/shutdown
+# chmod 4750 /sbin/shutdown
+# ln -s /sbin/shutdown /bin/shutdown 
+
+Comentários dos comandos acima: 
+groupadd &lt;group&gt;: adiciona um novo grupo ao sistema.
+gpasswd -a &lt;user&gt; &lt;group&gt;: adiciona um novo membro a um grupo.
+chown &lt;usuário&gt;:&lt;grupo&gt; &lt;arquivo&gt;: muda o dono e o grupo de um arquivo/diretório.
+chmod &lt;opções&gt; &lt;mode&gt;: liga o bit SUID junto com as novas permissões.
+-ln -s &lt;source&gt; &lt;dest&gt;: cria um link simbólico de um arquivo/diretório.
+
+Agora, logue-se novamente no shell: 
+# su - gabriel 
+
+Agora teste o comando shutdown. Não esqueça de voltar e terminar de ler o artigo ;D. 
+# shutdown -h now 
+
+OBS: Reparem que, se olharmos as permissões do comando shutdown, veremos um 's' na permissão do dono no lugar do 'x', 
+isto indica que o bit SUID está ligado. 
+
+----------------------------------------------------------------------------------------------------------------
+*****Instalação e Gerenciamento de Pacotes*****
+----------------------------------------------------------------------------------------------------------------
+Como gerenciadores de pacotes mais conhecidos temos: APT(Debian), YUM(Fedora), URPMI(Mandriva), EMERGE(Gentoo)
+As extensões de pacotes mais conhecidas são: .deb(Debian), .rpm(Fedora) e .tgz(Slackware)
+
+
+-----------------------------------------------------------------
+*APT(Advanced Packaging Tool) - Padrão no Debian e seus Derivados
+-----------------------------------------------------------------
+
+-----------------------------
+O comand apt-get
+-----------------------------
+apt-get update          = atualiza(baixa a lista) todos os pacotes do sistema
+apt-get --reinstall     = reinstala um pacote(substitui pacote existente)
+apt-get upgrade         = atualiza(baixa a lista) todos os pacotes do sistema e os instala
+apt-get install         = instala um pacode[baixa versão mais atualizada de pacote, caso já instalado]
+apt-get install -d      = baixa um pacote sem instalá-lo
+apt-get remove          = remove um pacote
+apt-get remove --purge  = remove um pacote, juntamente com suas arvores de dependências
+apt-get dist-upgrade    = atualizado o sistema(versão da distribuição)
+apt-cdrom add           = busca pacotes contidos nos CDs (ou no DVD) de instalação
+apt-get autoclean       = limpa o chache do apt[remove apenas pacotes antigos ou duplicados]
+apt-get autoclean       = limpa todo o chache do apt[elimina todos os arquivos do cache]
+
+-----------------------------
+PPAs(Personal Peckage Archives)
+-----------------------------
+-Adiciona um repositório não oficial automaticamente(/etc/apt/souces.list.d/, /etc/apt/souces.list)
+
+-Padrão no Ubuntu:
+add-apt-repository ppa:nome_ppa    = adiciona um repositório não oficial automaticamente
+
+-No Debian(/home/add-apt-repository):
+....................................................................................................
+....................................................................................................
+
+
+#!/bin/bash
+if [ $# -eq 1 ]
+then
+            ppa_name=`echo "$1" | cut -d":" -f2 -s`
+            if [ -z "$ppa_name" ]
+            then
+                        echo "PPA name not found"
+                        echo "Utility to add PPA repositories in your debian machine"
+                        echo "$0 ppa:user/ppa-name"
+            else
+                        echo "$ppa_name"
+                        echo "deb http://ppa.launchpad.net/$ppa_name/ubuntu lucid main"
+>> /etc/apt/sources.list
+                        apt-get update >> /dev/null 2> /tmp/apt_add_key.txt
+                        key=`cat /tmp/apt_add_key.txt | cut -d":" -f6 | cut -d" " -f3`
+                        apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $key
+                        rm -rf /tmp/apt_add_key.txt
+            fi
+else
+            echo "Utility to add PPA repositories in your debian machine"
+            echo "$0 ppa:user/ppa-name"
+fi
+
+
+....................................................................................................
+....................................................................................................
+
+
+
+-----------------------------
+O comand aptitude
+-----------------------------
+aptitude update              = atualiza a lista de pacotes
+aptitude safe-upgrade        = atualiza os pacotes
+aptitude install [pacote]    = instaldo o pacote
+aptitude remove [pacote]     = remove o pacote
+aptitude purge [pacote]      = purga o pacote; o mesmo que o remove, porém também remove os arquivos de configuração do pacote
+aptitude search [pacote]     = procura pelo pacote
+aptitude show [pacote]       = mostra se está instalado
+aptitude                     = roda o interativamente; F10 para ser direcionado ap menu
+aptitude -v[N vezes] moo     = easter egg
+
+-----------------------------
+apt-get  x  aptitude
+-----------------------------
+-Ambos instalam pacotes de forma a instalar também suas dependências;
+-O aptitude remove as dependências juntamente ao pacote que está sendo removido, diferente do ap-get
+
+-----------------------------
+O comand apt-cache
+-----------------------------
+apt-cache search        = procura por um pacote de acordo com a palavra/expressão especificada
+apt-cache pkgnames      = mostra os nomes de todos os pacotes no cache
+apt-cache stats         = mostra algumas estatísticas básicas
+apt-cache dump          = mostra um despejo do cache inteiro
+apt-cache show          = breve descrição do pacote em particular
+apt-cache showpkg       = descrição mais geral sobre do pacote
+apt-cache depends       = mosta de quais pacotes o pacote especificado depende
+
+-----------------------------
+dpkg = complementa o gerenciador de pacotes apt: 
+----------------------------- 
+dpkg -i                 = instala pacotes .deb baixados manualmente
+apt-get -f install      = verifica o que foi feito e corrige qualquer problema durante a instalação[depois de executado o dpkg -i]
+dpkg -i --force-all     = força a instalação do pacote, ignorando as dependências
+
+-----------------------
+Como atualizar o Kernel
+-----------------------
+uname -r                      = mostra a versão atual do kernel
+apt-cache search linux-image  = mostra as versões de kernel disponíveis
+apt-get install [nome-kernel] = instala o novo kernel
+
+-----------------------
+Como atualizar a Distribuição
+-----------------------
+lsb_release -a                                    = mostra a versão da distribuição
+nano /etc/apt/sources.list                        = é necessário alterar o nome da distribuição a qual o apt aponta em relação aos repositórios
+sed -i 's/[nome-dist-atual]/[nova-dist]/g' [arquivo]= troca a ocorrrência de uma palavra por outra[s/], em âmbito global([/g]em todo o arquivo)
+ap-get update                                     = atualiza(baixa a lista) todos os pacotes do sistema
+apt-get upgrade                                   = atualiza(baixa a lista) todos os pacotes do sistema e os instala
+update-manager -d                                 = mostra as distribuições disponíveis pelo gerenciador de atualizações[ubuntu]
+apt-get -u dist-upgrade                           = atualizado o sistema(versão da distribuição)[-u mostra as informações na tela]
+
+-front-end para o apt-get = synaptic
+-o apt-get baixa pacotes no formato .deb(extensão usada nas distribuições derivadas do Debian[Ubuntu, Kurumin, Kubuntu])
+-diretório de repositórios = /etc/apt/sources.list 
+-arquivo de configuração do apt = /etc/apt/apt.conf
+-o apt-get baixa pacotes no formato .deb
+
+-----------------------------
+Onde fica o cache do apt-get
+-----------------------------
+-diretório de cópias de pacotes baixados = /var/cache/apt/archives/
+-diretório de pacotes disponíveis(gerado ao executar o apt-get update) = /var/lib/apt/lists/
+-lista dos pacotes disponíveis nos FTPs oficiais do Debian no = http://www.debian.org/distrib/packages
+-ao atualizar softwares para nova versões, suas configurações são mantidas, pois são guardadas em pastas ocultas no diretório home do usuário
+
+-----------------------------------------------------------------
+*YUM(Yellow dog Update, Modified) - Padrão no na famíla Red Hat[fedora{onde o YUM foi desenvolvido}, Red Hat Enterprise Linux e CentOS]
+-----------------------------------------------------------------
+yum instal httpd    = instala um pacode
+yum remove httpd    = remove um pacote
+yum search samba    = procura por um pacote de acordo com a palavra/expressão especificada
+yum list samba      = procura por um pacote de acordo pelo nome especificado[busca mais restrita]
+yum provides mcedit = procura por pacotes que incluem um determinado arquivo[pesquisa por conteúdo, não por nome ou descrição]
+yum instal httpd    = atualiza pacotes já instalados[sendo necessário restartar o serviço, para que a nova versão passe a entrar em vigor]
+yum check-update    = lista as atualizações disponíveis
+yum update          = atualiza todos os pacotes do sistema
+yum upgrade         = atualiza pocotes marcados como obsoletos
+yum clean headers   = limpa o cache do yum
+yum clean packages  = limpa o cache do yum
+
+diretório de repositórios = /etc/yum.repos.d/ [no CentOs tem apenas 2 arquivos: 
+-"CentOS-Base.repo"(repositórios oficiais da distribuição)
+-"CentOS-Media.repo"(pacotes contidos nos CDs (ou no DVD) de instalação)
+
+-Ao adicionar repositórios adicionais, você criaria novos arquivos dentro da pasta "/etc/yum.repos.d/", um para cada repositório adicional.
+O yum verifica os arquivos dentro da pasta cada vez que é executado, fazendo com que o novo repositório passe a ser usado automaticamente.
+
+-Assim como o apt-get, o yum utiliza chaves GPG para checar a autenticidade dos pacotes antes de fazer a instalação. Cada pacote é assinado
+digitalmente pelo desenvolvedor, o que atesta que o pacote foi realmente gerado por ele. Mesmo que alguém tentasse adulterar
+o pacote(incluindo um rootkit ou um script malicioso, por exemplo), não teria como falsificar também a assinatura, o que levaria o yum a
+reportar o problema e abortar a instalação.
+
+rpm --impor = adiciona a chave pública do desenvolvedor do diretório[necessário para todas as inclusões de repositórios]
+
+Plugins:
+-fastmirror(faz com que o yum cheque a velocidade dos mirrors a cada instalação e baixe sempre os pacotes a partir do mirror mais rápido)
+yum install yum-fastestmirror
+
+-protectbase(faz com que o yum dê prioridade para os pacotes dos repositórios oficiais)
+yum install yum-protectbase
+
+-Para que ele se usado, é necessário adicionar a linha "protect=1" ou "protect=0" na configuração de cada um dos repositórios incluídos na 
+pasta "/etc/yum.repos.d". Os repositórios com o "protect=1" serão protegidos pelo protectbase, evitando que os pacotes sejam substituídos por
+pacotes de versões mais recentes incluídos nos repositórios adicionais. Com isso, os repositórios adicionais passam a realmente ser usados
+penas para instalar pacotes que não fazem parte dos repositórios principais, reduzindo bastante a possibilidade de problemas ao usar 
+repositórios não-oficiais.
+
+-o yum baixa pacotes no formato .rpm
+
+-----------------------------------------------------------------
+*RPM(Red Hat Package Mananger) - instala, remove, consulta e atualiza os pacotes de software de uma distribuição
+-----------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------
+-diretório de cópias da documentação de pacotes = /usr/share/doc/
+(onde ficam howto, read-me, quickstart e alguns exemplos de configuração)
+
+----------------------------------------------------------------------------------------------------------------
+*****Gerenciamento de Bibliotecas Compartilhadas*****
+----------------------------------------------------------------------------------------------------------------
+
+ldd [programa]    = exibe as bibliotecas compartilhadas de programas(sempre inserindo o caminho completo do programa)
+ldd --version     = exibe a versão do ldd
+ldd -v [programa] = modo verbose para o programa especificado
+
+No momento da execução, os programas executáveis dinamicamente vinculados são examinados pelo ld.so.
+Ele procura dependências no executável e tenta satisfazer vinculos a bibliotecas compartilhadas do sistema que não estejam resolvidos,
+ caso não encontre a biblioteca o programa não roda.
+
+ld.so = vinculador dinâmico de objetos compartilhados
+
+O ld.so procura na variável de ambiente LD_LIBRARY_PATH, /lib, /usr/lib ou em um índice de nomes e localização 
+de bibliotecas(binário) /etc/ld.so.cache.
+
+Para adicionar uma nova entrada basta icluir a bilbioteca no arquivo de configuralção /etc/ld.so.conf
+Após incluir uma nova biblioteca no cache é necessário execeutar o comando ldconfig para poder atualizá-lo(/etc/ld.so.cache)
+
+ldconfig        = configura as ligações em tempo de exetução do ligador dinâmico;reconstói o cache incluindo as atualizações realizadas
+ldconfig -p     = examina o conteúdo do cache de bibliotecas /etc/ld.so.cache; mosta o conteúdo do arquivo /etc/ld.so.cache
+
+extensão de uma biblioteca dinâmica = *.so
+
+---------------------------------------------------------------------------------------------------------------
+*****Gerenciamento de Processos - Monitoramento e Performace do Sistema*****
+----------------------------------------------------------------------------------------------------------------
+
+pstree          = mostra a relação entre processo pai e filho
+top             = visão em tempo real do sitema em execução
+
+-opções interativas:
+h               = opção interativa para gerar tela de ajuda
+k               = opção interativa para terminar um processo através de um PID
+q               = opção interativa para sair do programa
+r               = opção interativa para modificar a prioridade[renice] de um processo através de um PID e um valor nice[5&lt;-1,-3&gt;2]
+s               = opção interativa para 
+
+descrição dos campos:
+pid             = id do processo
+user            = usuário proprietário do processo
+pr              = prioridade da tarefa
+ni              = valor nice da tarefa
+virt            = memória virtual usada
+res             = memória física usada
+shr             = memória compartilhada usada
+s               = stado da tarefa[s=sleeping,r=running,t=stopped,z=zonmbie]
+%cpu            = % tempo de cpu usado
+%mem            = % tempo de memória física usada
+time+           = tempo total de atividade desde seu inicio
+command         = nome do processo
+
+-opções do comando top
+top             = visão em tempo real do sitema em execução
+top -d          = especifica um delay[atraso] - padrão 5 segundos
+top -i          = ignora processos ociosos
+top -n [n]      = exibe n interações e depois termina;atualiza a tela n vezes e sai do top
+top -b          = roda em modo batch
+sar             = 
+
+-opções do comando vmstat
+vmstat          = reporta informações sobre processos, memória, paginação, blocos de i/o, traps e atividade de cpu
+vmstat -S       = usa a unidade mb, ao invés de kb
+vmstat -a       = mostra a memória ativa e inativa
+vmstat -d       = mostra estatísticas de discos
+vmstat -p       = mostra informações de r/2 na partição especificada
+vmstat -s       = mostra estatísticas em formato de tabela
+--&gt;procs
+   r:numero de processos esperando para rodar
+   b:numero de processos em dormência ininterrupta
+--&gt;memory
+   swpd:memória virtual usada
+   free:memória livre
+   buff:memória usada como buffer
+   cache:memória usada como cache
+--&gt;swap
+   si:memória trocada a partir do disco
+   so:memória trocada para o disco
+--&gt;io
+   bi:blocos recebidos de um dispositivo de bloco
+   bo:blocos enviados a um dispositivo de bloco
+--&gt;system
+  in:numero de interrupções por segundo, incluindo clock
+  cs:numero de mudanças de contexto por segundo
+--&gt;cpu
+   us:tempo gasto rodando cógido que não é kernel
+   sy:tempo gasto rodando código do kernel
+   id:tempo gasto em ociosidade
+   wa:tempo gasto esperando por i/o
+
+-opções do comando free
+free            = exibe a quantidade de memória livre no sistema
+free -b         = mostra o uso de memória em bytes
+free -k         = mostra o uso de memória em kilobytes
+free -m         = mostra o uso de memória em megabytes
+free -t         = exibe um linha que mostra os totais
+free -s [n]     = Operação contínua em intervalos de n segundos
+
+-opções do comando iostat
+iostat          = mostra informações da cpu e vários estatísticas sobre e/s do sistema
+iostat -c       = mostra apenas estatísticas da cpu
+iostat -d       = mostra apenas estatísticas de e/s de disco
+iostat -p sda   = mostra apenas estatísticas para sda[nome de arquivo/dispositivo]
+
+-opções do comando dstat
+dstat           = efetua o monitoramento e verifica a performace do sistema; tem características do top,vmstat,free e iostat combinadas
+dstat n         = ajusta o intervalo de atualização para n segundos
+dstat -m        = estatísticas do uso de memória
+dstat -c        = estatísticas do uso de cpu
+dstat -d        = estatísticas do uso de disco
+dstat -i        = interrupções
+dstat -n        = estatísticas do uso de rede
+dstat --fs      = estatísticas do sistema de arquivos
+dstat -ntp      = mostra a hora a partir de um servidor de NTP
+
+uptime          = mosta a quanto tempo o sistema está rodando, quantos usuários logados e as médias de cargas do sistema[1, 5 ou 15 minutos]
+
+gnome-system-monitor = ferramenta gráfica para monitoramento de processos e desempenho do sistema
+
+----------------------------------------------------------------------------------------------------------------
+*****Distribuições Linux*****
+----------------------------------------------------------------------------------------------------------------
+
+Uma distribuição Linux é um conjunto de pacotes compilados, incluindio o kernel e um conjunto de outros softwares
+que formam um conjunto homogêneo.
+
+As distribuições linux foram criadas pois antes delas, era necessário baixar o kernel, compilá-lo, baixar o gcc,o 
+código fonte de outros softwares e utilitários, compilar um por um, até chegar a uma instalação funcional bootavel.
+Nessa época utilizava-se Minux, ou algum outro sistema Unix, para compilar o Linux e poder rodá-lo.Um belo dia alguém
+teve a ideia de pegar esses pacotes pré-compilá-los, colova em um conjunto de disquetes e começou a distruir.
+
+Entre 1991 e 112 as primeiras distribuições linux foram criadas.
+
+As principais Distribuições Linux são:
+-Debian
+-Red Hat
+-Fedora
+-CentOs
+-Mandriva
+-Ubuntu
+-Slackware
+-Gentoo
+
+----------------------------------------------------------------------------------------------------------------
+*****Gerenciamento de contas de usuários e Grupos de Arquivos de Sistemas Relacionados*****
+----------------------------------------------------------------------------------------------------------------
+
+/etc/passwd   = lista das contas de usuários do sistema.Antigamente, armazenava senhs de usuários.Qualquer um pode acessar.É recomendado que tal arquivo seja editado através do comando usermod(/etc/sbin/usermod), e não através de editores de texto.
+O diretório /etc/passwd  tem 7 campos:
+-1 = Nome de usuário(1-31 caracteres)
+-2 = Senha do usuário, a letra x indica que a senha está armazenada no diretório /etc/shadow
+-3 = UID(identificação do usuário, varia de 0-65535)[e 0-999 contas de usuário do sistema, contas internas]
+-4 = GID(identificação do grupo primário do usuário)
+-5 = Comentários, informações extras sobre o usuário, também conhecido como GECOS
+-6 = Diretório padrão
+-7 = Shell padrão
+-------------------------------------
+/etc/group    = arquivo que define os grupos aos quais os usuários percencem.Grupos são usados para aplicar permissões de acesso a recursos do sistema, e facilitar o gerenciamento e monitoramento de usuários.
+O diretório /etc/group  tem 4 campos:
+-1 = nome do grupo
+-2 = senha
+-3 = GID
+-4 = lista de membros, separados por vírgulas;o usuário não aparece em seu grupo padrão
+-------------------------------------
+/etc/gshadow  = arquivo que tem as senhas criptografadas para cada grupo
+O diretório /etc/group  tem 4 campos:
+-1 = nome do grupo
+-2 = senha criptografada, se houver[!, indica que os usuários que não são membros do grupo não podem acessá-lo]
+-3 = administradores do grupo
+-4 = membros do grupo
+
+Comandos para tratativa de grupos:
+groups = permite descobrir de quais grupos um usuário é membro
+id     = mostra os IDs de grupos e usuário e os grupos aos quais ele pertence
+id -g  = mostra o GID do grupo primário do usuário 
+id -G  = mostra todos os GID dos grupos os quais o usuário é membro
+id -n  = mostra todos os nomes dos grupos os quais o usuário é membro[tem de vir acompanha por outra opção(G,g)]
+
+-------------------------------------
+/etc/shadow   = contém as senhas criptografadas dos usuários do sistema e outras informações sobre os usuários do sistema
+O diretório /etc/shadow  tem 9 campos:
+-1 = nome da conta
+-2 = senha[!=não possui senha;*=conta desativada];![senha]=travada;!! = senha nunca configurada]
+-3 = última modificação - dias passados desde 01/01/1970 desde que a senha foi modificada pela última vez
+-4 = mínimo - dias antes que o usuário possa modificar a senha
+-5 = máximo -dias antes que o usuário possa manter a mesma senha
+-6 = aviso - notifica o numero de dias para a senha expirar
+-7 = inativo - dias após a validade da senha em que a senha é desabilitada automaticamente
+-8 = expiração - quando a conta será desativada - desde 01/01/1970
+-9 = reservado - por pardão não tem função determinada
+
+date -d "1970/01/01 + n days" = exibe a data correspondente a valor n numérico
+
+useradd      = adiciona um novo usuário
+useradd -c   = define um conteúdo no 5º campo do /etc/passwd; um comentário
+useradd -d   = defini o diretório home do usuário
+useradd -m   = cria e preeche o diretório home
+useradd -s   = usa o shell como padrão da conta
+useradd -e   = define a data de expiração
+useradd -u   = define um UID para o usuário
+
+adduser = realiza tarefas de criação de usuário(Debian[script em Perl, que faz referêcia ao useradd], Red Hat[link-simbólico para o useradd])
+adduser [user] [grupo] = adiciona o usuário em um grupo existente[seu script está em /usr/sbin]
+
+passwd             = configurar a senha e configurações da conta de usuário
+passwd -l(lock)    = bloqueia o usuário no sistema
+passwd -u(unlock)  = desbloqueia a conta do usuário
+passwd -d(delete)  = exclui a senha de um usuário
+passwd -e          = força a expiração da senha
+passwd -x x        = define um validade para a senha, ao passo qu expire em x dias
+passwd -n n        = quantidade mínima de dias[n] para o usuário poder alterar a senha
+passwd -w          = define a quantidade de dias para começar a enviar a aviso de expirãção da senha
+passwd -s          = exibe o status da conta de usuário
+
+gpasswd            = cria/altera a senha de um grupo;grava informações nos aruivos /etc/groups e /etc/gshadow
+gpasswd -a         = adiciona o usuário em um grupo
+gpasswd -d         = deleta o usuário de um grupo
+gpasswd -A         = torna o usuário adminstrador do grupo
+
+usermod               = modifica uma conta de usuário existente
+usermod -u v[user]    = altera o UID da conta de usuário para o valor v
+usermod -s s[user]    = define o shell s para o usuário
+usermod -g            = define um grupo primário para o usuário
+usermod -G            = torna o usuário membro dos grupos especificados
+usermod -c            = altera as informações do campo de comentário[5º campo do arquivo /etc/passwd] 
+usermod -l login      = altera o nome da conta para o login[l] especificado
+
+chfn                      = altera informações dos usuários
+chfn -f nome-completo     = altera o nome do usuário definido no campo de comentário
+chfn -r n-sala            = altera o número da sala do usuário
+chfn -w tel-comercial     = altera o número de telefone comercial
+chfn -h tel-residencial   = altera o número de telefone residencial
+
+userdel                   = remove um usuário
+userdel -r                = remove um usuário e seu respectivo diretório home
+
+-------------------------------------
+/etc/skel    = arquivo que contém a as configurações para contas de usuários
+
+
+----------------------------------------------------------------------------------------------------------------
+*****Configuração de Rede - DNS/Interface de Rede/DHCP/Configuração da Rede Padrão do Linux/SSH/Telnet/VPN/HTTP/SMPT/HTTPS*****
+----------------------------------------------------------------------------------------------------------------
+
+-------------------------------------
+Configuração de Servidor DHCP
+-------------------------------------
+Configurar interface de rede:
+-editar o arquivo /etc/network/interfaces[Debian]
+-editar o arquivo /etc/sysconfig/network-scripts/ifcfg-eth0
+-configurar um IP Fixo:
+-instalar o pacote do Servidor DHCP: isc-dhcp-server
+
+https://www.youtube.com/watch?v=hqS_EuQA6pQ&amp;list=PLucm8g_ezqNp92MmkF9p_cj4yhT-fCTl7&amp;index=41
+https://www.youtube.com/watch?v=0hfJEnYk_6A&amp;list=PLucm8g_ezqNp92MmkF9p_cj4yhT-fCTl7&amp;index=42
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+
+(x)Permissões de arquivos/diretórios
+(x)Instalação e Gerenciamento de Pacotes
+(x)Gerenciamento de Bibliotecas Compartilhadas
+(x)Variáveis de Ambiente
+(x)Gerenciamento de Boot
+(x)Terminal Linux
+(x)Navegação entre diretórios
+(x)Filtros de texto
+(x)Gerenciamento de Processos - Monitoramento e Performace do Sistema
+(-)Arquitetura de Hardware
+(x)Distribuições Linux
+(x)Redirecionamento e Pipes
+(x)Gerenciamento de contas de usuáriose Grupos de Arquivos de Sistemas Relacionados
+(-)Configuração de Rede - DNS/Interface de Rede/DHCP/Configuração da Rede Padrão do Linux/SSH/Telnet/VPN/HTTP/SMPT/HTTPS
+(x)Estrutura de Diretórios
+()História do Linux
+--()Gerenciamento de Partições e unidades de rede
+()Arquitetura do Sistema Linux
+()Layout do Disco Rígido
+()Paginadores
+()Sistemas de Arquivos
+()Configurações de Hardware
+()Editores de texto GNU/Linux
+()Gerenciamento de Cotas de Disco
+()Shell Script
+()Gerenciamento de Dados SQL
+()X Window System
+()Configuração do Display Manager
+()Definindo Data e Hora do Sistema
+()Conceito NTP
+()Logs do Sistema
+()Agente de Transferência de Emails - MTA
+()Gerenciamento de Impressoras e Filas de Impressão
+()Fundamentos de Redes - Endereçamento de Rede/Máscaras/Protocolos/Serviços/Utilitários
+()Adminstração de Segurança
+()Segurança do Host
+()Criptografia
+()Programas gnu/linux que substituem softwares proprietários
+
+Filme do Star Wars:   telnet towel.blinkenlights.nl
+
+
