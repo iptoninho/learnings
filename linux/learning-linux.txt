@@ -544,11 +544,6 @@ As opções frequentes são:
 -recheck Esta opção checa novamente o mapa de dispositivo em /boot/grub/device.map.
  É útil quando um novo disco for acrescentado ou retirado do sistema.
 
-
-
-
-
-
 ---------------------------
 Inicialização do Sistema
 ---------------------------
@@ -1626,46 +1621,4 @@ https://www.youtube.com/watch?v=0hfJEnYk_6A&amp;list=PLucm8g_ezqNp92MmkF9p_cj4yh
 
 ----------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
-
-(x)Permissões de arquivos/diretórios
-(x)Instalação e Gerenciamento de Pacotes
-(x)Gerenciamento de Bibliotecas Compartilhadas
-(x)Variáveis de Ambiente
-(x)Gerenciamento de Boot
-(x)Terminal Linux
-(x)Navegação entre diretórios
-(x)Filtros de texto
-(x)Gerenciamento de Processos - Monitoramento e Performace do Sistema
-(-)Arquitetura de Hardware
-(x)Distribuições Linux
-(x)Redirecionamento e Pipes
-(x)Gerenciamento de contas de usuáriose Grupos de Arquivos de Sistemas Relacionados
-(-)Configuração de Rede - DNS/Interface de Rede/DHCP/Configuração da Rede Padrão do Linux/SSH/Telnet/VPN/HTTP/SMPT/HTTPS
-(x)Estrutura de Diretórios
-()História do Linux
---()Gerenciamento de Partições e unidades de rede
-()Arquitetura do Sistema Linux
-()Layout do Disco Rígido
-()Paginadores
-()Sistemas de Arquivos
-()Configurações de Hardware
-()Editores de texto GNU/Linux
-()Gerenciamento de Cotas de Disco
-()Shell Script
-()Gerenciamento de Dados SQL
-()X Window System
-()Configuração do Display Manager
-()Definindo Data e Hora do Sistema
-()Conceito NTP
-()Logs do Sistema
-()Agente de Transferência de Emails - MTA
-()Gerenciamento de Impressoras e Filas de Impressão
-()Fundamentos de Redes - Endereçamento de Rede/Máscaras/Protocolos/Serviços/Utilitários
-()Adminstração de Segurança
-()Segurança do Host
-()Criptografia
-()Programas gnu/linux que substituem softwares proprietários
-
-Filme do Star Wars:   telnet towel.blinkenlights.nl
-
-
+#Filme do Star Wars:   telnet towel.blinkenlights.nl
