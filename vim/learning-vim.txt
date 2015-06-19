@@ -1,12 +1,10 @@
 VI - Editor de texto do GNU/LINUX
-
 --------------------
 Modos:
 --------------------
 -Command(defaut)
 -Insert(ESC,CTRL+[ retorna ao command mode)
 -last-line
-
 --------------------------
 Steps for editing  with VI
 --------------------------
@@ -17,53 +15,47 @@ Steps for editing  with VI
 5-change to commando mode
 6-save file
 7-end
-
 ---------------
 Insert mode
 ---------------
 i = insert text(inserts text before the position of the cursor)
 a = append text(inserts text after the position of the cursor)
-
 ---------------
 Command mode
 ---------------
 ZZ = salva o trabalho e sai do VI
-
 ---------------
 Last-line mode
 ---------------
 :wq = escreve as alterações e sai do editor
-:q! = sai do editor sem escrever``````````````````````````````````````` na memória, sem solicitar confirmação 
-
-
+:q! = sai do editor sem escrever na memória e sem solicitar confirmação 
 -----------------
 Cursor Placement
 -----------------
 -start command mod
 - h,j,k,l   = esquerda, baixo,cima, direita
 - nj/h/k/l  = move o cursor n linhas abaixo
-- 0	 	    = move o cursor para o inicio da linha
+- 0	 	      = move o cursor para o inicio da linha
 - ^ ou _    = move o cursor para primeiro caractere, que não seja espaço or tabulação, para a primeira coluna da linha corrente
-- $		    = move o cursor para primeiro caractere, que não seja espaço or tabulação, para a ultima coluna da linha corrente
+- $		      = move o cursor para primeiro caractere, que não seja espaço or tabulação, para a ultima coluna da linha corrente
 -(+)        = move o cursor para a linha abaixo
 -(-)        = move o cursor para a linha acima
-- w 	    = move o cursor para frente de uma palavra
-- b  	    = move o cursor para trás de uma palavra
-- )		    = move o cursor para esquerda(trás) de uma sentença
-- (		    = move o cursor para direita(frente) de uma sentença
+- w 	      = move o cursor para frente de uma palavra
+- b  	      = move o cursor para trás de uma palavra
+- )		      = move o cursor para esquerda(trás) de uma sentença
+- (		      = move o cursor para direita(frente) de uma sentença
 - }   	    = move o cursor para esquerda(trás) de uma paragrafo
 - {   	    = move o cursor para direita(frente) de uma paragrafo
 -nG         = move o cursor para linha n
-- H 	    = move o cursor para a primeira linha da tela
-- M 		= move o cursor para a linha do meio da tela
-- L 		= move o cursor para a linha do final da tela
--CTRL+F 	= rola para a pagina para frente
+- H 	      = move o cursor para a primeira linha da tela
+- M 		    = move o cursor para a linha do meio da tela
+- L 		    = move o cursor para a linha do final da tela
+-CTRL+F 	  = rola para a pagina para frente
 -CTRL+B     = rola para a pagina para tras
--CTRL+D 	= rola para a pagina para baixo
+-CTRL+D 	  = rola para a pagina para baixo
 -CTRL+U     = rola para a pagina para cima
--CTRL+E 	= rola para a linha de baixo
+-CTRL+E 	  = rola para a linha de baixo
 -CTRL+Y     = rola para a linha de cima
-
 --------------------
 Typical vi command:
 --------------------
@@ -83,4 +75,3 @@ Typical vi command:
 -.   = repete o ultimo comando
 -u   = desfaz o ultimo comando
 -U   = desfaz a ultima linha
-
