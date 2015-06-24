@@ -166,15 +166,18 @@ Os Três Estados
 ============================================================================================================
 |-------------------------------------------Local Operations-----------------------------------------------|
 ============================================================================================================
-|[Diretório de Trabalho]    			        [Área de Preparação]					         [Diretório do Git]	       |
-|  working directory                          staging area                     git directory(repository)   |	
-|       |										                      |                                     |                  |
-|       |<-------------------------------checkout the project---------------------------|				           |
-|       |										   |									|				                              |                  |
-|       |--------------stage files--------------->|				                      	      |				           |
-|       |										   |								  |				                              |                  |   
-|       |						 				   |--------------commit---------------------- ->|				  |                  |
-|       |						 				   |									|				                              |                  |
+|[Diretório de Trabalho]    		 [Área de Preparação]		        [Diretório do Git]	   |
+|   working directory                       staging area                     git directory(repository)	   |
+|       |					|     					|		   |
+|       |<-------------------------------checkout the project---------------------------|		   |
+|	|					|					|		   |
+|       |					|					|		   |
+|	|					|					|		   |
+|       |--------------stage files------------->|				        |		   |
+|       |					|					|		   |
+|       |				        |					|		   |
+|       |					|--------------commit------------------>|		   |	
+|	|					|					|		   |
 ============================================================================================================
 
 *O diretório do Git é o local onde o Git armazena os metadados e o banco de objetos de seu projeto. 
